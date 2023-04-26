@@ -26,5 +26,8 @@ public class Follow {
         return word + "{" + count + "}";
     }
 
+    public void incrementCount() {
+    }
+
 
 }
