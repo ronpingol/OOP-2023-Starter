@@ -18,19 +18,24 @@ public class DANI extends PApplet {
 		colorMode(RGB);
 		model = new ArrayList<Word>();
 		loadFile();
-		printModel();
-		writeSonnet();
-		
+
+		printingModel();
+
+		writeingSonnet();
+
+		//printSonnet();
 	}
 
-	public void writeSonnet(){
+	float off = 1;//0;
+
+	public void writeingSonnet(){
 	
 
 
 		sonet = new String[14];
 		
-		for (int i = 0; i < 14; i++)
-		{
+		for (int i = 0; i < 14; i++){
+		
 			int a = (int) random(0, model.size());
 			Word w = model.get(a);
 			
@@ -38,19 +43,19 @@ public class DANI extends PApplet {
 			building.append(w.getWord() + " ");
 
 			
-			for(int k = 0; k < 7;k++)
-			{
+			for(int k = 0; k < 7;k++){
+			
 
 
 				int b;
 				
-				if(w.getFollows().size() == 0)
-				{
+				if(w.getFollows().size() == 0){
+				
 					break;
 				}
 				
-				else
-				{
+				else{
+				
 					b = (int) random(0, w.getFollows().size());
 				}
 				
@@ -65,7 +70,7 @@ public class DANI extends PApplet {
 		}
 	}
 
-	public void printModel() {
+	public void printingModel() {
 
 		for (Word w : model) {
 			System.out.println(w.toString());
@@ -73,17 +78,27 @@ public class DANI extends PApplet {
 
 	}
 
-	public void keyPressed() {
+	public void printSonnet(){
+	
+		for(String s:sonet)
+		{
+			System.out.println(s);
+		}
+	}
 
+	public void keyPressed() {
+		if (key == ' ') {
+			writeingSonnet();
+		}
 	}
 
 	String[] sonet;
 
-	public void loadFile() {
+	private void loadFile() {
 		String[] lines = loadStrings("shakespere.txt");
 
-		for (int i = 0; i < lines.length; i++) {
-			String[] wrd = split(lines[i], " ");
+		for (int i = 1; i < lines.length; i++) {
+			String[] wrd = split(lines[i], "  ");
 			for (int j = 0; j < wrd.length; j++) {
 
 				wrd[j] = wrd[j].replaceAll("[^a-zA-Z ]", "");
@@ -131,14 +146,20 @@ public class DANI extends PApplet {
 		return -1;
 	}
 
-	float off = 0;
+
 
 	public void draw() {
+		
 		background(0);
 		fill(255);
 		noStroke();
 		textSize(20);
 		textAlign(CENTER, CENTER);
 
+		int spc = 25;
+		for(int i = 0;i<sonet.length;i++)
+		{
+			text(sonet[i], width/2, spc + i * spc);
+		}
 	}
 }

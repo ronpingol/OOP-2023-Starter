@@ -49,11 +49,11 @@ public class Word {
     
     public String toString(){
     
-        String result = "";
-        result += word + ":";
+        String result = "a  ";
+        result += word + ";";
         for(Follow f:follows)
         {
-            result += " " + f.toString();
+            result += "  " + f.toString();
         }
         return result;
     }
