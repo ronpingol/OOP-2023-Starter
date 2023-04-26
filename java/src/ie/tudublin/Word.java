@@ -29,8 +29,8 @@ public class Word {
         fs.setAddUp(fs.getAddUp()+1);
     }
 
-    public int findFollow(String word)
-    {
+    public int findFollow(String word){
+    
         for(Follow f:follows)
         {
             if(f.getWord().equals(word))
@@ -47,8 +47,8 @@ public class Word {
         follows = new ArrayList<Follow>();
     }
     
-    public String toString()
-    {
+    public String toString(){
+    
         String result = "";
         result += word + ":";
         for(Follow f:follows)
@@ -58,9 +58,7 @@ public class Word {
         return result;
     }
 
-    public Follow getOrCreateFollow(String nextWord) {
-        return null;
-    }
+
 
     
 }
