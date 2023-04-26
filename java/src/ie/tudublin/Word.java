@@ -26,7 +26,7 @@ public class Word {
     }
     public void addFollowCount(Follow fs)
     {
-        fs.setAddUp(fs.getAddUp()+1);
+        fs.addingUp();
     }
 
     public int findFollow(String word){

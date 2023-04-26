@@ -14,8 +14,8 @@ public class Follow {
     public int getAddUp() {
         return addUp;
     }
-    public void setAddUp(int add) {
-        this.addUp = add;
+    public void addingUp() {
+        this.addUp++;
     }
     public Follow(String word,int add)
     {
