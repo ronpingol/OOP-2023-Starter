@@ -1,34 +1,106 @@
 package ie.tudublin;
 
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 
 public class DANI extends PApplet {
 
-	
+	ArrayList<Word> model;
+	ArrayList<String> sonnets;
+	StringBuilder building;
 
 	public void settings() {
 		size(1000, 1000);
 		//fullScreen(SPAN);
 	}
 
-    String[] small;
-
-    public String[] writeSonnet()
-    {
-        return null;
-    }
 
 	public void setup() {
-		colorMode(HSB);
-		loadFile("small.txt");
+		colorMode(RGB);
+		model = new ArrayList<Word>();
+		loadFile();
+
        
 	}
 
 	public void keyPressed() {
 
 	}
+
+	String[] sonet;
+
+	public void loadFile()
+	{
+		String[] lines = loadStrings("shakespere.txt");
+		
+		for(int i = 0; i < lines.length; i ++)
+		{
+			String[] wrd = split(lines[i], " ");
+			for(int j = 0; j < wrd.length; j ++)
+			{
+				
+				wrd[j] = wrd[j].replaceAll("[^a-zA-Z ]", "");
+				wrd[j] = wrd[j].toLowerCase();
+
+				boolean lastWord;
+				if(j+1 == wrd.length)
+				{
+					lastWord = true;
+				}
+				else
+				{
+					lastWord = false;
+				}
+				
+				if(!lastWord)
+				{
+					wrd[j+1] = wrd[j+1].replaceAll("[^a-zA-Z ]", "");
+					wrd[j+1] = wrd[j+1].toLowerCase();
+				}
+
+				int result = findWord(wrd[j]);
+				Word word;
+				
+				if(result == -1)
+				{
+					word = new Word(wrd[j]);
+					model.add(word);
+				}
+				else
+				{
+					word = model.get(result);
+				}
+
+				
+				if(!lastWord)
+				{
+					if(word.findFollow(wrd[j+1]) == -1)
+					{
+						word.addFollow(new Follow(wrd[j+1], 1));
+					}
+					else
+					{
+						word.addFollowCount(word.getFollows().get(word.findFollow(wrd[j+1])));
+					}
+				}
+			}
+		}
+	}
+	public int findWord(String word)
+	{
+		for(int i = 0; i < model.size(); i ++)
+		{
+			if(model.get(i).getWord().equals(word))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+
+
+
 
 	float off = 0;
 
@@ -39,86 +111,7 @@ public class DANI extends PApplet {
 		noStroke();
 		textSize(20);
         textAlign(CENTER, CENTER);
+
         
 	}
-
-	private ArrayList<Word> model;
-
-    public DANI() {
-        model = new ArrayList<>();
-    }
-
-	
-
-	
-
-	private Word getWord(String word) {
-        for (Word w : model) {
-            if (w.getWord().equals(word)) {
-                return w;
-            }
-        }
-        return null;
-    }
-
-    private Follow getFollow(Word word, String followingWord) {
-        for (Follow follow : word.getFollows()) {
-            if (follow.getWord().equals(followingWord)) {
-                return follow;
-            }
-        }
-        return null;
-    }
-
-	private int count;
-
-	public void incrementCount() {
-        count++;
-    }
-
-
-
-	public void loadFile(String filename) {
-        String[] lines = loadStrings(filename);
-
-        for (String line : lines) {
-            // Clean the text by removing punctuation and converting to lower case
-            String[] words = split(line.replaceAll("[^\\w\\s]","").toLowerCase(), ' ');
-
-            // Generate the word frequency and following word lists for the model
-            for (int i = 0; i < words.length; i++) {
-                String currentWord = words[i];
-                String nextWord = i < words.length - 1 ? words[i+1] : null;
-                Word word = getWord(currentWord);
-
-                if (word == null) {
-                    // Create a new Word object and add it to the model
-                    word = new Word(currentWord, new ArrayList<Follow>());
-                    model.add(word);
-                }
-
-                // Update the following word list for the current Word object
-                if (nextWord != null) {
-                    Follow follow = getFollow(word, nextWord);
-
-                    if (follow == null) {
-                        // Create a new Follow object and add it to the follows list
-                        follow = new Follow(nextWord, 1);
-                        word.getFollows().add(follow);
-                    } else {
-                        // Increment the count for the existing Follow object
-                        follow.incrementCount();
-                    }
-                }
-            }
-        }
-    }
-
-	public void printModel() {
-		for (Word word : model) {
-			System.out.println(word.toString());
-		}
-	}
-
-
 }

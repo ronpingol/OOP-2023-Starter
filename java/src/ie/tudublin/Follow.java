@@ -1,13 +1,9 @@
 package ie.tudublin;
 
 public class Follow {
+
     private String word;
-    private int count;
-    
-    public Follow(String word, int count) {
-        this.word = word;
-        this.count = count;
-    }
+    private int addUp;
 
     public String getWord() {
         return word;
@@ -15,19 +11,21 @@ public class Follow {
     public void setWord(String word) {
         this.word = word;
     }
-    public int getCount() {
-        return count;
+    public int getAddUp() {
+        return addUp;
     }
-    public void setCount(int count) {
-        this.count = count;
+    public void setAddUp(int add) {
+        this.addUp = add;
     }
-
-    public String toString(){
-        return word + "{" + count + "}";
+    public Follow(String word,int add)
+    {
+        this.word = word;
+        this.addUp = add;
     }
-
-    public void incrementCount() {
+    public String toString()
+    {
+        return word + "(" + addUp + ")";
     }
-
+  
 
 }
